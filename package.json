@@ -1,0 +1,15 @@
+{
+  "name": "tv4-coerce",
+  "version": "0.0.0",
+  "description": "Coercive validation with tv4",
+  "main": "coerce.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Geraint Luff",
+  "license": "MIT",
+  "dependencies": {
+    "tv4": "~1.0.16",
+    "json-pointer": "~0.1.0"
+  }
+}
