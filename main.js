@@ -56,3 +56,4 @@ var api = module.exports = {
 	}
 };
 
+require('./coerce-standard.js');
