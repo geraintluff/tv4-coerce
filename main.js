@@ -46,7 +46,11 @@ var api = module.exports = {
 					var fixFunction = fixes[j];
 					var fixedValue = fixFunction(subData, schemaValue, error);
 					if (typeof fixedValue !== 'undefined') {
-						jsonPointer.set(data, error.dataPath, fixedValue);
+						if (error.dataPath) {
+							jsonPointer.set(data, error.dataPath, fixedValue);
+						} else {
+							data = fixedValue;
+						}
 						break;
 					}
 				}
