@@ -12,13 +12,62 @@ var api = module.exports = {
 		this.fixes[code].push(fixFunction);
 		return this;
 	},
+	possibleSchemas: function (schema, dataPath) {
+		var parts = dataPath.split('/').slice(1);
+		var options = [schema];
+		while (parts.length) {
+			var part = parts.shift().replace(/~1/g, '/').replace(/~0/g, '~');
+			// Expand all $refs, anyOf, allOf, oneOf
+			var expandedOptions = [];
+			while (options.length) {
+				var option = options.shift();
+				if (typeof option['$ref'] == 'string') {
+					option = tv4.getSchema(option['$ref']);
+				}
+				if (expandedOptions.indexOf(option) !== -1) continue;
+				if (option.allOf) {
+					options = [].concat(option.allOf).concat(options);
+				}
+				if (option.anyOf) {
+					options = [].concat(option.anyOf).concat(options);
+				}
+				if (option.oneOf) {
+					options = [].concat(option.oneOf).concat(options);
+				}
+				expandedOptions.push(option);
+			}
+
+			var newOptions = [];
+			while (expandedOptions.length) {
+				var option = expandedOptions.shift();
+				if (/^(0|[1-9][0-9]*)$/.test(part)) {
+					if (Array.isArray(option.items)) {
+						if (option.items[part]) {
+							newOptions.push(option.items[part]);
+						} else if (option.additionalItems) {
+							newOptions.push(option.additionalItems);
+						}
+					} else if (option.items) {
+						newOptions.push(option.items);
+					}
+				}
+				if (option.properties && option.properties[part]) {
+					newOptions.push(option.properties[part]);
+				} else if (option.additionalProperties) {
+					newOptions.push(option.additionalProperties);
+				}
+			}
+			options = newOptions;
+		}
+		return options;
+	},
 	schemaFromPath: function(schema, path) {
 		var parts = path.split('/').slice(1);
 		while (parts.length) {
 			if (typeof schema['$ref'] == 'string') {
 				schema = tv4.getSchema(schema['$ref']);
 			}
-			var part = parts.shift();
+			var part = parts.shift().replace(/~1/g, '/').replace(/~0/g, '~');
 			schema = schema[part];
 		}
 		return schema;
@@ -44,7 +93,7 @@ var api = module.exports = {
 				var fixes = this.fixes[error.code] || [];
 				for (var j = 0; j < fixes.length; j++) {
 					var fixFunction = fixes[j];
-					var fixedValue = fixFunction(subData, schemaValue, error);
+					var fixedValue = fixFunction(subData, schemaValue, error, schema);
 					if (typeof fixedValue !== 'undefined') {
 						if (error.dataPath) {
 							jsonPointer.set(data, error.dataPath, fixedValue);
