@@ -9,12 +9,13 @@
   "author": "Geraint Luff",
   "license": "MIT",
   "dependencies": {
-    "tv4": "~1.0.18",
-    "json-pointer": "~0.1.0"
+    "json-pointer": "^0.3.1",
+    "tv4": "^1.2.7"
   },
   "devDependencies": {
-    "grunt": "~0.4.4",
-    "chai": "~1.9.1",
-    "grunt-mocha-test": "~0.10.0"
+    "chai": "^3.5.0",
+    "grunt": "^0.4.5",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.4.5"
   }
 }
