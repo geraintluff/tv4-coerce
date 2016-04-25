@@ -1,6 +1,6 @@
 {
   "name": "tv4-coerce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Coercive validation with tv4",
   "main": "coerce.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "Geraint Luff",
   "license": "MIT",
   "dependencies": {
-    "tv4": "~1.0.18",
-    "json-pointer": "~0.1.0"
+    "tv4": "~1.2.7",
+    "json-pointer": "~0.5.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
