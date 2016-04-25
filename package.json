@@ -1,6 +1,6 @@
 {
   "name": "tv4-coerce",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Coercive validation with tv4",
   "main": "coerce.js",
   "scripts": {
