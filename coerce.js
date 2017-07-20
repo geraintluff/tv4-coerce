@@ -1,5 +1,4 @@
 var tv4 = require('tv4'), jsonPointer = require('json-pointer');
-
 var api = module.exports = {
 	tv4: tv4,
 	errorCodes: tv4.errorCodes,
@@ -72,13 +71,13 @@ var api = module.exports = {
 		}
 		return schema;
 	},
-	coerce: function (data, schema) {
+	coerce: function (data, schema, checkRecursive, banUnknownProperties) {
 		var seenErrors = {};
 		var changes = 1;
 		var result;
 		while (changes) {
 			changes = 0;
-			result = tv4.validateMultiple(data, schema);
+			result = tv4.validateMultiple(data, schema, checkRecursive, banUnknownProperties);
 			result.data = data;
 			result.schema = schema;
 			for (var i = 0; i < result.errors.length; i++) {
@@ -108,5 +107,3 @@ var api = module.exports = {
 		return result;
 	}
 };
-
-require('./coerce-standard.js');
