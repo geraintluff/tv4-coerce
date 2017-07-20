@@ -8,7 +8,7 @@ Coercive validation based on tv4
 ```javascript
 var tv4coerce = require('tv4-coerce');
 
-tv4coerce.coerce(data, schema);
+tv4coerce.coerce(data, schema, checkRecursive, banUnknownProperties);
 ```
 
 ## Adding new fixes

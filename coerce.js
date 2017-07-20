@@ -71,13 +71,13 @@ var api = module.exports = {
 		}
 		return schema;
 	},
-	coerce: function (data, schema) {
+	coerce: function (data, schema, checkRecursive, banUnknownProperties) {
 		var seenErrors = {};
 		var changes = 1;
 		var result;
 		while (changes) {
 			changes = 0;
-			result = tv4.validateMultiple(data, schema);
+			result = tv4.validateMultiple(data, schema, checkRecursive, banUnknownProperties);
 			result.data = data;
 			result.schema = schema;
 			for (var i = 0; i < result.errors.length; i++) {
